@@ -299,7 +299,7 @@ class TitleView(ctk.CTkFrame):
 
     def __on_website_clicked(self) -> None:
         """Open a link to a website (e.g. wiki, source) upon clicking the button."""
-        wb.open_new_tab("https://github.com")
+        wb.open_new_tab("https://github.com/cemenenkoff/runedark-public")
 
     def __on_settings_clicked(self) -> None:
         """Open Settings as a popup after the associated button is clicked."""

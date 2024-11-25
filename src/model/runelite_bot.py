@@ -21,8 +21,6 @@ import utilities.ocr as ocr
 import utilities.random_util as rd
 from model.bot import Bot
 from model.runelite_window import RuneLiteWindow
-
-# from utilities.window import Window
 from model.window import Window
 from utilities import settings
 from utilities.color_util import Color, ColorPalette, isolate_colors, isolate_contours
@@ -43,6 +41,7 @@ class RuneLiteBot(Bot, metaclass=ABCMeta):
 
     win: RuneLiteWindow = None  # Every `RuneLiteBot` runs in a `RuneLiteWindow`.
     cp = ColorPalette()  # Defining here allows for default kwarg colors in type hints.
+
     # The game tick serves as the fundamental time unit within OSRS servers,
     # representing the duration of one server cycle. Analogous to a game's frame rate,
     # it dictates the pace of in-game events and actions. Data is transmitted to the
@@ -1314,77 +1313,6 @@ class RuneLiteBot(Bot, metaclass=ABCMeta):
         # elements to calculate the mean "friendliness".
         mean = only_friends.mean(axis=(0, 1))
         return mean != 0.0
-
-    def capitalize_loot_list(self, loot: str, to_list: bool) -> Union[str, List[str]]:
-        """
-        Takes a comma-separated string of loot items and capitalizes each item.
-        Args:
-            loot_list: A comma-separated string of loot items.
-            to_list: Whether to return a list of capitalized loot items (or keep it as
-                a string).
-        Returns:
-            Union[str, List[str]]: Capitalized loot items as a list or string.
-        """
-        if not loot:
-            return [] if to_list else ""
-        phrases = loot.split(",")
-        capitalized_phrases = []
-        for phrase in phrases:
-            stripped_phrase = phrase.strip()
-            capitalized_phrase = stripped_phrase.capitalize()
-            capitalized_phrases.append(capitalized_phrase)
-        return capitalized_phrases if to_list else ", ".join(capitalized_phrases)
-
-    def pick_up_loot(self, items: Union[str, List[str]], supress_warning=True) -> bool:
-        """
-        Attempts to pick up a single purple loot item off the ground. Assumes enough
-        inventory space to pick up the item. The item closest to the game view center
-        is picked up first.
-        Args:
-            item: The name(s) of the item(s) to pick up (E.g. -> "Coins", or "coins,
-                bones", or ["Coins", "Dragon bones"]).
-        Returns:
-            True if the item was clicked, False otherwise.
-        """
-        # Capitalize each item name
-        if isinstance(items, list):
-            for i, item in enumerate(items):
-                item = item.capitalize()
-                items[i] = item
-        else:
-            items = self.capitalize_loot_list(items, to_list=True)
-        # Locate Ground Items text
-        if item_text := ocr.find_textbox(
-            items, self.win.game_view, ocr.PLAIN_11, self.cp.bgr.PURPLE
-        ):
-            for item in item_text:
-                item.set_rectangle_reference(self.win.game_view)
-            sorted_by_closest = sorted(item_text, key=Rectangle.distance_from_center)
-            self.mouse.move_to(sorted_by_closest[0].center)
-            for _ in range(5):
-                if self.get_mouseover_text(
-                    contains=["Take"] + items,
-                    colors=[self.cp.bgr.OFF_WHITE, self.cp.bgr.OFF_ORANGE],
-                ):
-                    break
-                self.mouse.move_rel(0, 3, 1, mouseSpeed="fastest")
-            self.mouse.right_click()
-            # search the right-click menu
-            if take_text := ocr.find_textbox(
-                items,
-                self.win.game_view,
-                ocr.BOLD_12,
-                [self.cp.bgr.WHITE, self.cp.bgr.PURPLE, self.cp.bgr.ORANGE],
-            ):
-                self.mouse.move_to(take_text[0].random_point(), mouseSpeed="medium")
-                self.mouse.click()
-                return True
-            else:
-                self.log_msg(f"Could not find 'Take {items}' in right-click menu.")
-                return False
-        elif not supress_warning:
-            self.log_msg(f"Could not find {items} on the ground.")
-            return False
 
     def toggle_auto_retaliate(
         self, state: Literal["on", "off"], verbose: bool = True

@@ -19,10 +19,10 @@
 3. Open an IDE (e.g. VS Code).
 4. Clone this repository.
 5. Set up a virtual environment.
-   1. Ensure `virtualenv` is installed: `pip instal virtualenv`
+   1. Ensure `virtualenv` is installed: `pip install virtualenv`
    2. Create a virtual environment: `virtualenv venv --python=python3.10.9`
    3. Activate the newly-created virtual environment: `source venv/Scripts/activate`
-   4. Install depedencies: `pip install -r requirements.txt`
+   4. Install dependencies: `pip install -r requirements.txt`
 6. Run: `python src/rune_dark.py`
 
 ❌ If you are getting `ModuleNotFound` errors, *restart* your IDE for the newly-installed modules to be recognized.

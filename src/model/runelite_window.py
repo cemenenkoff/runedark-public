@@ -8,8 +8,6 @@ import win32gui
 from matplotlib.pyplot import imsave
 
 import utilities.img_search as imsearch
-
-# from utilities.window import Window, WindowInitializationError
 from model.window import Window, WindowInitializationError
 from utilities.geometry import Rectangle
 from utilities.mappings import subtract_windows as sw

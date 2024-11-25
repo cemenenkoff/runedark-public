@@ -137,7 +137,7 @@ def scrape_text(
         char_list.extend([char, x, y] for x, y in zip(x_mins, y_mins))
     # Sort the char list based on which ones appear closest to the image top-left.
     char_list = sorted(char_list, key=itemgetter(2, 1))  # Sort by y first, then by x.
-    # Lastly, join the charachers into one continuous string.
+    # Lastly, join the characters into one continuous string.
     return result.join(letter for letter, _, _ in char_list)
 
 

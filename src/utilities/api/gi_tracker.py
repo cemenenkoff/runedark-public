@@ -22,9 +22,6 @@ from utilities.mappings.skills import NAMES as SKILL_NAMES
 from utilities.mappings.stats import NAMES as STAT_NAMES
 
 PATH_SRC = Path(sys.path[0])
-# PATH_DATA = PATH_SRC / "data"
-# if not PATH_DATA.exists():
-#     PATH_DATA.mkdir(exist_ok=True, parents=True)
 
 
 class GITracker:
@@ -149,9 +146,6 @@ class GITracker:
                         setter(data[key])
                 if undefined_keys:
                     print(f"Undefined keys: {undefined_keys}")
-                # if username := self.get_username():
-                #     self.cache_path = PATH_DATA / f"{username}.json"
-                #     self._save_data()
                 self._save_data()
                 self._set_last_updated()  # Store the timestamp of the recent update.
                 return (

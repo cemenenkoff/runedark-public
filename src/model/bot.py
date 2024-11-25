@@ -16,8 +16,6 @@ from customtkinter.windows.ctk_toplevel import CTkToplevel
 
 import utilities.debug as debug
 import utilities.random_util as rd
-
-# from utilities.window import Window
 from model.window import Window
 from utilities.geometry import Point
 from utilities.mouse import Mouse
@@ -226,7 +224,7 @@ class Bot(ABC):
         else:
             self.log_msg("Bot is stopped.")
 
-    # ---- Controller ----
+    # --- Controller ---
     def set_controller(self, controller: "BotController"):
         """Set the the associated controller for this `Bot`.
 
@@ -305,7 +303,7 @@ class Bot(ABC):
         """Don't do anything for a number of seconds.
 
         Note that there is a built-in skew to use times closer to the lower bound due
-        to the definition of `fancy_normal_sample`.
+        to the definition of `biased_trunc_norm_samp`.
 
         Args:
             lo (float, optional): The lower bound for the truncated normal distribution

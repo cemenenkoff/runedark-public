@@ -33,8 +33,8 @@ class OSRSWanderer(OSRSBot):
         """Travel to a given location by foot.
 
         For this to work as intended:
-            1. The destination tuples or list of tuple waypoints must be appropriately.
-                See `utilities.locations` for examples.
+            1. The destination tuples or list of tuple waypoints must be appropriately
+                formatted. See `utilities.locations` for examples.
             2. Screen dimmers like F.lux or Night Light on Windows should be disabled
                 since our bot is highly sensitive to colors.
         """

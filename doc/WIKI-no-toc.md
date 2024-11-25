@@ -1,6 +1,9 @@
-![logo](img/wiki-splash.png)
-___
-# General FAQ
+<p align="center">
+  <img src="img/wiki-splash.png" alt="logo" width="1200"/>
+</p>
+
+
+# 1. General FAQ
 1. **What is RuneDark?**
     - RuneDark is a desktop client for managing automation scripts in games. Unlike traditional injection or reflection frameworks, RuneDark is hands-off, relying solely on computer vision and optical character recognition.
     - *RuneDark does not encourage or support activities that are in violation of any game's Terms of Service.*
@@ -8,8 +11,8 @@ ___
     - RuneDark can be expanded to fit any on-screen computer game.
     - Right now, it only works for 2007-style OSRS interfaces.
 3. **Is RuneDark safe?**
-    - Although RuneDark is closed source, it is safe and easy to use.
-    - The RuneDark team strongly encourages you to scan any executable file you receive for viruses before running it, as this is a best practice for security.
+    - As of November 2024, RuneDark is open source. It is safe and easy to use.
+    - As a rule, it's best to review a developer's code or scan any executable file you receive for viruses before running it to ensure you're using safe software.
 4. **What are the general approaches to gaming software automation?**
     - There are three general types:
         - ***Injection***: Injects unauthorized code into the game, similar to jailbreaking a phone.
@@ -25,10 +28,10 @@ ___
     - Servers flag actions that wouldn't be possible through the standard UI.
         - **Example**: A bot detects a potion in the inventory and drinks it even if the inventory tab isn't open, which a human player couldn't do without switching views.
 8. **How was RuneDark built?**
-    - RuneDark started as a fork from [OSBC](https://github.com/kelltom/OS-Bot-COLOR) 🙏.
+    - RuneDark's core uses [`mss`](https://python-mss.readthedocs.io/) and [`opencv`](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html).
     - It was developed and tested on Windows.
 9.  **Can I be banned for using RuneDark?**
-    - Only if using it irresponsibly in violation of game terms of service.
+    - Only if using it irresponsibly in violation of game's terms of service.
 10. **How likely am I to get banned using RuneDark?**
     - Unlikely if used responsibly. RuneDark's humanization techniques reduce detectability.
 11. **Is it safe to bot on my main account?**
@@ -56,25 +59,25 @@ ___
     - Avoid breaking terms of service, and if using automation, avoid injection or reflection methods.
 17. **Does RuneDark run in the background?**
     - No, RuneDark currently requires direct input, though remote input is on the roadmap
-___
-# Architecture
-## Design Pattern
-- The core of RuneDark is designed using the Model-View-Controller (MVC) pattern.
+
+# 2. Architecture
+## 2.1 Design Pattern
+- The core of RuneDark is designed using the [Model-View-Controller (MVC)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) pattern.
 - This pattern is used to separate the application's *logic* from its *presentation*. In this app:
   - ***Models*** refer to bots (their properties, functions, etc.).
   - ***Views*** refer to the user interface (the buttons, text, etc.).
   - A ***Controller*** handles communication between these two layers.
 <p align="center">
-  <img src="img/mvc.png" width="616"/>
+  <img src="img/mvc-process.svg" width="616"/>
 </p>
 
-## Core Classes
+## 2.2 Core Classes
 - `RuneLiteBot`
   - Derived from the base `Bot`, this class contains the general utility functions shared by all bots that interface with RuneLite.
 - `RuneLiteWindow`
   - Derived from the base `Window`, this class tailors window references to the idiosyncracies of RuneLite.
-- `geometry.RuneLiteObject`
-  - This class represents object on the screen, bounded by a `Rectangle`
+- `RuneLiteObject`
+  - This class represents an object on the screen, bounded by a `Rectangle`
   - Note that the bounding `Rectangle` for a `RuneLiteObject` is contained within a larger reference `Rectangle` (i.e. the entire screen).
 ```swift
     (0, 0) ---- Main Monitor Screen Area ------- + ---------------- +
@@ -98,30 +101,30 @@ ___
 ```
   - Note that this coordinate system is defined with the origin in the upper *left* corner.
   - This is because right-handed click-and-drag operations usually occur from a click in the upper-left corner of the screen that then drags down to the lower-right corner.
-___
-# Quickstart
+
+# 3. Quickstart
 1. Install [Python 3.10.9](https://www.python.org/downloads/release/python-3109/).
 2. Install [Git Bash for Windows](https://git-scm.com/downloads).
 3. Open an IDE (e.g. VS Code).
 4. Clone this repository.
 5. Set up a virtual environment.
-   1. Ensure `virtualenv` is installed: `pip instal virtualenv`
+   1. Ensure `virtualenv` is installed: `pip install virtualenv`
    2. Create a virtual environment: `virtualenv venv --python=python3.10.9`
    3. Activate the newly-created virtual environment: `source venv/Scripts/activate`
-   4. Install depedencies: `pip install -r requirements.txt`
+   4. Install dependencies: `pip install -r requirements.txt`
 6. Run: `python src/rune_dark.py`
 
 ❌ If you are getting `ModuleNotFound` errors, *restart* your IDE for the newly-installed modules to be recognized.
 
-## Creating a Bot
+## 3.1 Creating a Bot
 - First, check out the existing base template.
 - Then, see one of the basic bots and emulate its implementation.
 
-## Testing a Bot Without the UI
+## 3.2 Testing a Bot Without the UI
 - Ensure default settings are hard-coded in the main bot file.
 - See the final few lines in `src/rune_dark.py` and change them appropriately.
-___
-# Packaging
+
+# 4. Packaging
 - Compiling builds (i.e. compiling `src/rune_dark.py` into an executable) can be done with these approaches:
   - [Pyinstaller](https://customtkinter.tomschimansky.com/documentation/packaging)
     - This method is not secure, as source code and assets are stored in temp files during execution.
@@ -129,7 +132,7 @@ ___
   - [Nuitka](https://github.com/Nuitka/Nuitka)
     - This method is far more secure and modern, but build times are significant.
     - The standard command to compile a version of RuneDark is:
-      - `python -m nuitka --standalone --follow-imports --enable-plugin=tk-inter --include-module=cv2 --enable-plugin=no-qt src/rune_dark.py`
+      - `python -m nuitka --standalone --follow-imports --enable-plugin=tk-inter --enable-plugin=no-qt src/rune_dark.py`
   - [PyArmor](https://github.com/dashingsoft/pyarmor)
     - A tool used to obfuscate python scripts, bind obfuscated scripts to fixed machine, or expire obfuscated scripts.
 
@@ -151,4 +154,4 @@ ___
       4. `--enable-plugin=no-qt` enables the `no-qt` plugin in Nuitka, which excludes Qt libraries from the final executable. This can reduce the executable's size, especially if the code doesn't depend on Qt.
       5. `src/rune_dark.py` specifies `rune_dark.py` in the `src` directory as the entry point to be compiled.
 4. Test the compiled executable:
-   1. `./src/rune_dark.py`
+   1. `./src/rune_dark`
